@@ -8,11 +8,13 @@ export default function ReservationSchedule() {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
 
-  const venueAddress = "Party Cabin, 31 Angus Road, Bedfordview, Germiston 2008";
-  const venueLat = -26.179;   // approximate coordinates for Bedfordview (replace with exact)
+  const venueAddress = "31 Angus Rd, Bedfordview, Germiston, 2008";
+  const venueLat = -26.179;   // exact coordinates for 31 Angus Rd
   const venueLng = 28.146;
 
-  // Request user's current location when the page loads
+  // Google Maps shortlink for the exact location
+  const exactMapUrl = "https://maps.app.goo.gl/fxcmNj91mncjLX1W8?g_st=aw";
+
   const getUserLocation = () => {
     if (!navigator.geolocation) {
       setLocationError("Geolocation is not supported by your browser.");
@@ -32,7 +34,6 @@ export default function ReservationSchedule() {
     );
   };
 
-  // Build the Google Maps directions URL
   const getDirectionsUrl = () => {
     const destination = `${venueLat},${venueLng}`;
     if (userLocation) {
@@ -106,20 +107,27 @@ export default function ReservationSchedule() {
               {venueAddress}
             </p>
 
-            {/* Embedded Google Map (no API key required) */}
-            <div className="relative w-full max-w-3xl mx-auto h-64 md:h-80 mb-6 overflow-hidden rounded-xl shadow-lg">
+            {/* Embedded Google Map (centered on exact coordinates) */}
+            <div className="relative w-full max-w-3xl mx-auto h-64 md:h-80 mb-4 overflow-hidden rounded-xl shadow-lg">
               <iframe
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
                 loading="lazy"
-                src={`https://www.google.com/maps?q=${encodeURIComponent(venueAddress)}&output=embed`}
+                src={`https://www.google.com/maps?q=${venueLat},${venueLng}&z=16&output=embed`}
                 title="Map showing Party Cabin location"
               />
             </div>
-            <p className="text-sm text-white/60 mb-3">
-              (Interactive map – drag to explore, click to open in Google Maps)
-            </p>
+            <div className="flex flex-col items-center gap-2 mb-6">
+              <a
+                href={exactMapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-sm text-yellow-300 hover:text-yellow-200 underline"
+              >
+                📍 Open exact location in Google Maps
+              </a>
+            </div>
 
             {/* Directions Button */}
             <div className="flex flex-col items-center gap-3">

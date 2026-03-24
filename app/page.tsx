@@ -27,7 +27,6 @@ export default function Home() {
 
     const targetDate = getNextAprilFourth();
     // Format event date string (e.g., "April 4, 2026")
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setEventDateStr(
       targetDate.toLocaleDateString("en-US", {
         month: "long",
@@ -160,19 +159,17 @@ export default function Home() {
                 <span className="text-2xl">⚽</span> The Beginning
               </h3>
               <p className="text-white/90 leading-relaxed">
-                In the spring of 2016, a group of five friends – Lucas, Mateo,
-                Ethan, Noah, and Oliver – gathered on a dusty pitch in the heart
-                of Trouville. What started as a casual kickabout quickly turned
-                into a shared dream. Frustrated by the lack of local competitive
-                football, they decided to form their own club. With nothing more
-                than a second‑hand ball and unwavering passion, Trou Fc was born.
+                In the spring of 2016, a group of varsity friends wanted to bring their friendship onto a soccer pitch.
+                What started as a casual kickabout quickly turned into a shared dream.
+                Frustrated by the lack of local competitive football, they decided to form their own club.
+                With nothing more than a second‑hand ball and unwavering passion, Trou Fc was born.
               </p>
               <p className="text-white/90 leading-relaxed">
-                The first few seasons were humble: borrowed kits, patchwork
-                fields, and more losses than wins. But the spirit never wavered.
-                Word spread, and soon local talents joined the cause, drawn by
-                the infectious energy and the promise of a team that played for
-                love of the game.
+                The first few seasons were humble: unmatched kits, small fields, and no competitive games.
+                But the spirit never wavered. Word spread, and soon amazing talents joined the cause,
+                drawn by the infectious energy and the promise of a team that played for love of the game.
+                By 2018, Trou Fc managed to participate in its first ever competitive league,
+                the University of Johannesburg internal league.
               </p>
             </div>
 
@@ -182,20 +179,17 @@ export default function Home() {
                 <span className="text-2xl">🏆</span> Growth & Community
               </h3>
               <p className="text-white/90 leading-relaxed">
-                By 2018, Trou Fc had secured its first home ground and
-                established a youth academy, nurturing local talent from the
-                neighbourhood. The club’s philosophy – “Pride in Every Pass” –
-                resonated beyond the pitch. Families, local businesses, and
-                city officials rallied behind the team, turning matches into
+                The club’s philosophy – “Not only enjoying the game, but winning at all cost
+                and creating unbreakable bonds” – resonated beyond the pitch.
+                Families, friends, and admirers rallied behind the team, turning matches into
                 vibrant community celebrations.
               </p>
               <p className="text-white/90 leading-relaxed">
-                Today, as we celebrate a decade of existence, Trou Fc stands as
-                a symbol of unity and resilience. From three regional titles to
-                countless friendships forged, the journey has been nothing short
-                of extraordinary. This anniversary is not just ours – it belongs
-                to every supporter, volunteer, and dreamer who believed that a
-                simple game could change a community.
+                Today, as we celebrate a decade of existence, Trou Fc stands as a symbol
+                of unity and resilience. From three amazing games to countless friendships forged,
+                the journey has been nothing short of extraordinary.
+                This anniversary is not just ours – it belongs to every supporter, volunteer,
+                and dreamer who believed that a simple game could change a community.
               </p>
             </div>
           </div>

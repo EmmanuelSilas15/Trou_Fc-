@@ -39,7 +39,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/schedule-reservation"
+                  href="/schedule"
                   className="text-gray-300 hover:text-yellow-400 transition text-sm"
                 >
                   Schedule & Reservation
@@ -55,7 +55,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/rsvp"
+                  href="/reservation"
                   className="text-gray-300 hover:text-yellow-400 transition text-sm"
                 >
                   RSVP
@@ -68,10 +68,10 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Get in Touch</h3>
             <p className="text-gray-300 text-sm mb-2">
-              📧 info@fctou.com
+              📧 fctrou31@gmail.com
             </p>
             <p className="text-gray-300 text-sm mb-4">
-              📞 +1 (555) 123-4567
+              📞 +27 (63) 342-2808
             </p>
             <div className="flex space-x-4">
               {/* Facebook */}
