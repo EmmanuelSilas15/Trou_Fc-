@@ -5,81 +5,42 @@ import { useState } from "react";
 import Image from "next/image";
 
 export default function ReservationSchedule() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    event: "",
-    guests: "1",
-  });
+  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [locationError, setLocationError] = useState<string | null>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const venueAddress = "Party Cabin, 31 Angus Road, Bedfordview, Germiston 2008";
+  const venueLat = -26.179;   // approximate coordinates for Bedfordview (replace with exact)
+  const venueLng = 28.146;
+
+  // Request user's current location when the page loads
+  const getUserLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationError("Geolocation is not supported by your browser.");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+        setLocationError(null);
+      },
+      (error) => {
+        setLocationError("Unable to get your location. You can still search for directions manually.");
+      }
+    );
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert("Reservation submitted! We'll contact you soon.");
-    setFormData({ name: "", email: "", event: "", guests: "1" });
-  };
-
-  // Event data used in the reservation form dropdown
-  const schedule = [
-    {
-      date: "April 4, 2026",
-      event: "Gala Dinner & Opening Ceremony",
-      time: "6:00 PM",
-      location: "City Convention Hall",
-    },
-    {
-      date: "April 5, 2026",
-      event: "Legends Match",
-      time: "2:00 PM",
-      location: "Trou Fc Stadium",
-    },
-    {
-      date: "April 6, 2026",
-      event: "Community Festival & Youth Clinic",
-      time: "10:00 AM",
-      location: "Central Park",
-    },
-  ];
-
-  // Function to generate and download an ICS file
-  const addToCalendar = () => {
-    // Event details
-    const eventTitle = "Trou Fc 10th Anniversary Celebration";
-    const eventDate = "20260404"; // YYYYMMDD
-    const eventTimeStart = "100000"; // 10:00 AM (24h format)
-    const eventTimeEnd = "180000";   // 6:00 PM
-    const eventLocation = "Party Cabin, 31 Angus Road, Bedfordview, Germiston 2008";
-    const eventDescription = "Join us for the 10th anniversary of Trou Fc!";
-
-    // Build ICS string
-    const icsContent = [
-      "BEGIN:VCALENDAR",
-      "VERSION:2.0",
-      "PRODID:-//TrouFc//Anniversary//EN",
-      "BEGIN:VEVENT",
-      `SUMMARY:${eventTitle}`,
-      `DTSTART:${eventDate}T${eventTimeStart}`,
-      `DTEND:${eventDate}T${eventTimeEnd}`,
-      `LOCATION:${eventLocation}`,
-      `DESCRIPTION:${eventDescription}`,
-      "END:VEVENT",
-      "END:VCALENDAR",
-    ].join("\r\n");
-
-    // Create blob and trigger download
-    const blob = new Blob([icsContent], { type: "text/calendar" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "trou_fc_anniversary.ics";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(link.href);
+  // Build the Google Maps directions URL
+  const getDirectionsUrl = () => {
+    const destination = `${venueLat},${venueLng}`;
+    if (userLocation) {
+      const origin = `${userLocation.lat},${userLocation.lng}`;
+      return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=driving`;
+    } else {
+      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(venueAddress)}`;
+    }
   };
 
   return (
@@ -100,18 +61,88 @@ export default function ReservationSchedule() {
             </p>
             <div className="mt-4 space-y-2 text-white/90">
               <p className="text-xl">📍 Venue: Party Cabin</p>
-              <p>31 Angus Road, Bedfordview, Germiston 2008</p>
+              <p>{venueAddress}</p>
             </div>
-            <button
-              onClick={addToCalendar}
-              className="mt-6 inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-md transition shadow-lg"
-            >
-              📅 Add to Calendar
-            </button>
+
+            {/* Calendar Buttons */}
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <a
+                href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Trou%20Fc%2010th%20Anniversary%20Celebration&dates=20260404T100000/20260404T180000&details=Join%20us%20for%20the%2010th%20anniversary%20of%20Trou%20Fc%21&location=Party%20Cabin%2C%2031%20Angus%20Road%2C%20Bedfordview%2C%20Germiston%202008"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition shadow-lg"
+              >
+                📅 Google Calendar
+              </a>
+              <a
+                href="https://icalendar.com/?title=Trou%20Fc%2010th%20Anniversary%20Celebration&dates=20260404/20260404&start=100000&end=180000&location=Party%20Cabin%2C%2031%20Angus%20Road%2C%20Bedfordview%2C%20Germiston%202008&description=Join%20us%20for%20the%2010th%20anniversary%20of%20Trou%20Fc%21"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-md transition shadow-lg"
+              >
+                📅 Apple Calendar
+              </a>
+              <a
+                href="https://outlook.live.com/calendar/0/deeplink/compose?subject=Trou%20Fc%2010th%20Anniversary%20Celebration&startdt=20260404T100000&enddt=20260404T180000&location=Party%20Cabin%2C%2031%20Angus%20Road%2C%20Bedfordview%2C%20Germiston%202008&body=Join%20us%20for%20the%2010th%20anniversary%20of%20Trou%20Fc%21"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition shadow-lg"
+              >
+                📅 Outlook
+              </a>
+            </div>
+            <p className="text-xs text-white/60 mt-3">
+              Click to open your calendar and save the event.
+            </p>
+          </div>
+
+          {/* Directions & Map Section */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-xl border border-white/20 mb-12 text-center">
+            <h2 className="text-2xl font-semibold mb-4 text-yellow-200">
+              How to Get There
+            </h2>
+            <p className="text-white/90 mb-4">
+              <span className="font-semibold">📍 Party Cabin</span><br />
+              {venueAddress}
+            </p>
+
+            {/* Embedded Google Map (no API key required) */}
+            <div className="relative w-full max-w-3xl mx-auto h-64 md:h-80 mb-6 overflow-hidden rounded-xl shadow-lg">
+              <iframe
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                loading="lazy"
+                src={`https://www.google.com/maps?q=${encodeURIComponent(venueAddress)}&output=embed`}
+                title="Map showing Party Cabin location"
+              />
+            </div>
+            <p className="text-sm text-white/60 mb-3">
+              (Interactive map – drag to explore, click to open in Google Maps)
+            </p>
+
+            {/* Directions Button */}
+            <div className="flex flex-col items-center gap-3">
+              <button
+                onClick={() => {
+                  getUserLocation();
+                  window.open(getDirectionsUrl(), "_blank");
+                }}
+                className="inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-md transition shadow-lg"
+              >
+                🧭 Get Directions from Your Location
+              </button>
+              {locationError && (
+                <p className="text-sm text-yellow-200 mt-2">{locationError}</p>
+              )}
+              <p className="text-xs text-white/60">
+                We'll use your current location to plan the route. You can also just click the button to open Google Maps.
+              </p>
+            </div>
           </div>
 
           {/* Dress Code Section */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-xl border border-white/20 mb-12 text-center">
+          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-xl border border-white/20 text-center">
             <h2 className="text-2xl font-semibold mb-4 text-yellow-200">
               Dress Code
             </h2>
@@ -129,87 +160,6 @@ export default function ReservationSchedule() {
                 priority
               />
             </div>
-          </div>
-
-          {/* Reservation Form */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-xl border border-white/20">
-            <h2 className="text-2xl font-semibold mb-6 text-yellow-200">
-              Make a Reservation
-            </h2>
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-yellow-100">
-                  Full Name *
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="mt-1 block w-full bg-black/40 border border-white/30 rounded-md shadow-sm p-2 text-white placeholder-white/50 focus:ring-yellow-400 focus:border-yellow-400"
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-yellow-100">
-                  Email Address *
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="mt-1 block w-full bg-black/40 border border-white/30 rounded-md shadow-sm p-2 text-white placeholder-white/50 focus:ring-yellow-400 focus:border-yellow-400"
-                />
-              </div>
-              <div>
-                <label htmlFor="event" className="block text-sm font-medium text-yellow-100">
-                  Select Event *
-                </label>
-                <select
-                  id="event"
-                  name="event"
-                  required
-                  value={formData.event}
-                  onChange={handleChange}
-                  className="mt-1 block w-full bg-black/40 border border-white/30 rounded-md shadow-sm p-2 text-white focus:ring-yellow-400 focus:border-yellow-400"
-                >
-                  <option value="" className="bg-black text-white">
-                    -- Choose an event --
-                  </option>
-                  {schedule.map((item, idx) => (
-                    <option key={idx} value={item.event} className="bg-black text-white">
-                      {item.event} - {item.date}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="guests" className="block text-sm font-medium text-yellow-100">
-                  Number of Guests *
-                </label>
-                <input
-                  type="number"
-                  id="guests"
-                  name="guests"
-                  min="1"
-                  max="10"
-                  required
-                  value={formData.guests}
-                  onChange={handleChange}
-                  className="mt-1 block w-full bg-black/40 border border-white/30 rounded-md shadow-sm p-2 text-white focus:ring-yellow-400 focus:border-yellow-400"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-md transition shadow-lg"
-              >
-                Submit Reservation
-              </button>
-            </form>
           </div>
         </div>
       </div>
