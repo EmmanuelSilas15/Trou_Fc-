@@ -8,8 +8,8 @@ import Footer from "@/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "FC Tou Anniversary – 25 Years",
-  description: "Celebrating 25 years of FC Tou with matches, galas, and community events.",
+  title: " Tou FC Anniversary – 10 Years",
+  description: "Celebrating 10 years of FC Tou with matches, galas, and community events.",
 };
 
 export default function RootLayout({

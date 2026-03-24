@@ -27,6 +27,7 @@ export default function Home() {
 
     const targetDate = getNextAprilFourth();
     // Format event date string (e.g., "April 4, 2026")
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setEventDateStr(
       targetDate.toLocaleDateString("en-US", {
         month: "long",
@@ -76,7 +77,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-yellow-300 text-white">
+    <div className="min-h-screen bg-linear-to-b from-black via-gray-900 to-yellow-300 text-white">
       <div className="flex flex-col items-center justify-center text-center px-4 py-32 md:py-48">
         <h1 className="text-5xl md:text-7xl font-bold mb-4">
           Trou Fc <span className="text-yellow-300">Anniversary</span>
