@@ -136,7 +136,7 @@ export default function ReservationSchedule() {
                 <p className="text-sm text-yellow-200 mt-2">{locationError}</p>
               )}
               <p className="text-xs text-white/60">
-                We'll use your current location to plan the route. You can also just click the button to open Google Maps.
+                We&apos;ll use your current location to plan the route. You can also just click the button to open Google Maps.
               </p>
             </div>
           </div>
