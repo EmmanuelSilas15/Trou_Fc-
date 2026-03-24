@@ -44,7 +44,7 @@ export default function ReservationSchedule() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black-600 to-yellow-400 text-white">
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-yellow-500 text-white">
       <div className="py-12 px-4">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold text-center text-yellow-300 mb-8">
