@@ -1,8 +1,12 @@
-// components/Footer.tsx
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -11,7 +15,7 @@ export default function Footer() {
           <div>
             <div className="mb-4">
               <Image
-                src="/Tou_fc_logo.jpeg"          // Same logo as navbar
+                src="/Tou_fc_logo.jpeg"
                 alt="FC Tou Logo"
                 width={50}
                 height={50}
@@ -20,21 +24,20 @@ export default function Footer() {
               />
             </div>
             <p className="text-gray-300 text-sm">
-              Celebrating 10 years of passion, pride, and community. Join us on the
-              pitch and beyond.
+              {t('footerAboutText')}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('quickLinks')}</h3>
             <ul className="space-y-2">
               <li>
                 <Link
                   href="/"
                   className="text-gray-300 hover:text-yellow-400 transition text-sm"
                 >
-                  Home
+                  {t('home')}
                 </Link>
               </li>
               <li>
@@ -42,7 +45,7 @@ export default function Footer() {
                   href="/schedule"
                   className="text-gray-300 hover:text-yellow-400 transition text-sm"
                 >
-                  Schedule & Reservation
+                  {t('schedule')}
                 </Link>
               </li>
               <li>
@@ -50,7 +53,7 @@ export default function Footer() {
                   href="/gallery"
                   className="text-gray-300 hover:text-yellow-400 transition text-sm"
                 >
-                  Gallery
+                  {t('gallery')}
                 </Link>
               </li>
               <li>
@@ -58,7 +61,7 @@ export default function Footer() {
                   href="/reservation"
                   className="text-gray-300 hover:text-yellow-400 transition text-sm"
                 >
-                  RSVP
+                  {t('rsvp')}
                 </Link>
               </li>
             </ul>
@@ -66,7 +69,7 @@ export default function Footer() {
 
           {/* Contact & Social */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Get in Touch</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('getInTouch')}</h3>
             <p className="text-gray-300 text-sm mb-2">
               📧 fctrou31@gmail.com
             </p>
@@ -74,7 +77,6 @@ export default function Footer() {
               📞 +27 (63) 342-2808
             </p>
             <div className="flex space-x-4">
-              {/* Facebook */}
               <a
                 href="https://facebook.com"
                 target="_blank"
@@ -86,7 +88,6 @@ export default function Footer() {
                   <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879v-6.99h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.99C18.343 21.128 22 16.991 22 12z" />
                 </svg>
               </a>
-              {/* Twitter */}
               <a
                 href="https://twitter.com"
                 target="_blank"
@@ -98,7 +99,6 @@ export default function Footer() {
                   <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.937 4.937 0 004.604 3.417 9.868 9.868 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 0021.297-11.678c0-.21-.005-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
                 </svg>
               </a>
-              {/* Instagram */}
               <a
                 href="https://instagram.com"
                 target="_blank"
@@ -116,8 +116,8 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
-          <p>© {new Date().getFullYear()} FC Tou. All rights reserved.</p>
-          <p className="mt-1">#FCTou10Years</p>
+          <p>© {new Date().getFullYear()} FC Tou. {t('copyright')}</p>
+          <p className="mt-1">{t('hashTag')}</p>
         </div>
       </div>
     </footer>

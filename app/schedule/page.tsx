@@ -1,23 +1,22 @@
-// app/reservation-schedule/page.tsx
 "use client";
 
 import { useState } from "react";
 import Image from "next/image";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function ReservationSchedule() {
+  const { t } = useLanguage();
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
 
   const venueAddress = "31 Angus Rd, Bedfordview, Germiston, 2008";
-  const venueLat = -26.179;   // exact coordinates for 31 Angus Rd
+  const venueLat = -26.179;
   const venueLng = 28.146;
-
-  // Google Maps shortlink for the exact location
   const exactMapUrl = "https://maps.app.goo.gl/fxcmNj91mncjLX1W8?g_st=aw";
 
   const getUserLocation = () => {
     if (!navigator.geolocation) {
-      setLocationError("Geolocation is not supported by your browser.");
+      setLocationError(t('geolocationUnsupported'));
       return;
     }
     navigator.geolocation.getCurrentPosition(
@@ -28,8 +27,8 @@ export default function ReservationSchedule() {
         });
         setLocationError(null);
       },
-      (error) => {
-        setLocationError("Unable to get your location. You can still search for directions manually.");
+      () => {
+        setLocationError(t('locationError'));
       }
     );
   };
@@ -49,19 +48,19 @@ export default function ReservationSchedule() {
       <div className="py-12 px-4">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold text-center text-yellow-300 mb-8">
-            Schedule & Reservations
+            {t('scheduleTitle')}
           </h1>
 
           {/* Event Details Card */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-xl border border-white/20 mb-12 text-center">
             <h2 className="text-2xl font-semibold mb-4 text-yellow-200">
-              Main Event
+              {t('mainEvent')}
             </h2>
             <p className="text-3xl md:text-4xl font-bold text-yellow-100 mb-2">
-              Saturday, 4th April 2026
+              {t('saturdayApril')}
             </p>
             <div className="mt-4 space-y-2 text-white/90">
-              <p className="text-xl">📍 Venue: Party Cabin</p>
+              <p className="text-xl">{t('venue')}</p>
               <p>{venueAddress}</p>
             </div>
 
@@ -73,7 +72,7 @@ export default function ReservationSchedule() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition shadow-lg"
               >
-                📅 Google Calendar
+                📅 {t('googleCalendar')}
               </a>
               <a
                 href="https://icalendar.com/?title=Trou%20Fc%2010th%20Anniversary%20Celebration&dates=20260404/20260404&start=100000&end=180000&location=Party%20Cabin%2C%2031%20Angus%20Road%2C%20Bedfordview%2C%20Germiston%202008&description=Join%20us%20for%20the%2010th%20anniversary%20of%20Trou%20Fc%21"
@@ -81,7 +80,7 @@ export default function ReservationSchedule() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-md transition shadow-lg"
               >
-                📅 Apple Calendar
+                📅 {t('appleCalendar')}
               </a>
               <a
                 href="https://outlook.live.com/calendar/0/deeplink/compose?subject=Trou%20Fc%2010th%20Anniversary%20Celebration&startdt=20260404T100000&enddt=20260404T180000&location=Party%20Cabin%2C%2031%20Angus%20Road%2C%20Bedfordview%2C%20Germiston%202008&body=Join%20us%20for%20the%2010th%20anniversary%20of%20Trou%20Fc%21"
@@ -89,25 +88,25 @@ export default function ReservationSchedule() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition shadow-lg"
               >
-                📅 Outlook
+                📅 {t('outlook')}
               </a>
             </div>
             <p className="text-xs text-white/60 mt-3">
-              Click to open your calendar and save the event.
+              {t('calendarButtons')}
             </p>
           </div>
 
           {/* Directions & Map Section */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-xl border border-white/20 mb-12 text-center">
             <h2 className="text-2xl font-semibold mb-4 text-yellow-200">
-              How to Get There
+              {t('howToGetThere')}
             </h2>
             <p className="text-white/90 mb-4">
-              <span className="font-semibold">📍 Party Cabin</span><br />
+              <span className="font-semibold">{t('venue')}</span><br />
               {venueAddress}
             </p>
 
-            {/* Embedded Google Map (centered on exact coordinates) */}
+            {/* Embedded Google Map */}
             <div className="relative w-full max-w-3xl mx-auto h-64 md:h-80 mb-4 overflow-hidden rounded-xl shadow-lg">
               <iframe
                 width="100%"
@@ -125,7 +124,7 @@ export default function ReservationSchedule() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 text-sm text-yellow-300 hover:text-yellow-200 underline"
               >
-                📍 Open exact location in Google Maps
+                📍 {t('openExactLocation')}
               </a>
             </div>
 
@@ -138,13 +137,13 @@ export default function ReservationSchedule() {
                 }}
                 className="inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-md transition shadow-lg"
               >
-                🧭 Get Directions from Your Location
+                🧭 {t('getDirections')}
               </button>
               {locationError && (
                 <p className="text-sm text-yellow-200 mt-2">{locationError}</p>
               )}
               <p className="text-xs text-white/60">
-                We&apos;ll use your current location to plan the route. You can also just click the button to open Google Maps.
+                {t('directionsNote')}
               </p>
             </div>
           </div>
@@ -152,11 +151,10 @@ export default function ReservationSchedule() {
           {/* Dress Code Section */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-xl border border-white/20 text-center">
             <h2 className="text-2xl font-semibold mb-4 text-yellow-200">
-              Dress Code
+              {t('dressCode')}
             </h2>
             <p className="text-white/90 mb-6 max-w-2xl mx-auto">
-              To honour the elegance of our 10th anniversary, we invite all guests to dress in formal attire.
-              Black tie optional – we look forward to celebrating in style.
+              {t('dressCodeDesc')}
             </p>
             <div className="relative w-full max-w-2xl mx-auto max-h-96 overflow-hidden rounded-xl shadow-lg">
               <Image

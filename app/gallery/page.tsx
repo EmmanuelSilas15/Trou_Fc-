@@ -1,15 +1,18 @@
-// app/gallery/page.tsx
+"use client";
+
 import Image from "next/image";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Gallery() {
-  // Example image list – replace with your own images
+  const { t } = useLanguage();
+
   const images = [
-    { id: 1, src: "/gallery/img1.jpg", alt: "Team celebration" },
-    { id: 2, src: "/gallery/img2.jpg", alt: "Fans cheering" },
-    { id: 3, src: "/gallery/img3.jpg", alt: "Match action" },
-    { id: 4, src: "/gallery/img4.jpg", alt: "Award ceremony" },
-    { id: 5, src: "/gallery/img5.jpg", alt: "Youth academy" },
-    { id: 6, src: "/gallery/img6.jpg", alt: "Community event" },
+    { id: 1, src: "/gallery/img1.jpg", altKey: "galleryAltCelebration" },
+    { id: 2, src: "/gallery/img2.jpg", altKey: "galleryAltFans" },
+    { id: 3, src: "/gallery/img3.jpg", altKey: "galleryAltMatch" },
+    { id: 4, src: "/gallery/img4.jpg", altKey: "galleryAltAward" },
+    { id: 5, src: "/gallery/img5.jpg", altKey: "galleryAltYouth" },
+    { id: 6, src: "/gallery/img6.jpg", altKey: "galleryAltCommunity" },
   ];
 
   return (
@@ -17,10 +20,10 @@ export default function Gallery() {
       <div className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold text-center text-yellow-300 mb-4">
-            Photo Gallery
+            {t('galleryTitle')}
           </h1>
           <p className="text-center text-white/80 mb-12 max-w-2xl mx-auto">
-            Relive the best moments of Trou Fc&apos;s 10‑year journey.
+            {t('gallerySubtitle')}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -32,13 +35,13 @@ export default function Gallery() {
                 <div className="relative h-64 w-full">
                   <Image
                     src={img.src}
-                    alt={img.alt}
+                    alt={t(img.altKey)}
                     fill
                     className="object-cover"
                   />
                 </div>
                 <div className="p-4 text-center">
-                  <p className="text-white/80">{img.alt}</p>
+                  <p className="text-white/80">{t(img.altKey)}</p>
                 </div>
               </div>
             ))}

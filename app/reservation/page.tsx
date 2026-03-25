@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function RSVP() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -33,8 +35,7 @@ export default function RSVP() {
 
       if (!response.ok) throw new Error('Failed to submit');
 
-      setSubmitStatus({ type: 'success', message: 'Thank you for your RSVP! We look forward to celebrating with you.' });
-      // Reset form after successful submission
+      setSubmitStatus({ type: 'success', message: t('successMessage') });
       setFormData({
         name: "",
         email: "",
@@ -43,7 +44,7 @@ export default function RSVP() {
         message: "",
       });
     } catch (error) {
-      setSubmitStatus({ type: 'error', message: 'Something went wrong. Please try again later.' });
+      setSubmitStatus({ type: 'error', message: t('errorMessage') });
     } finally {
       setIsSubmitting(false);
     }
@@ -55,13 +56,13 @@ export default function RSVP() {
         <div className="max-w-2xl mx-auto">
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
             <div className="bg-yellow-500/20 px-6 py-8 text-center border-b border-white/20">
-              <h1 className="text-3xl font-bold text-yellow-300">Join the Celebration</h1>
-              <p className="text-white/80 mt-2">RSVP for Trou Fc&apos;s 10th Anniversary</p>
+              <h1 className="text-3xl font-bold text-yellow-300">{t('rsvpTitle')}</h1>
+              <p className="text-white/80 mt-2">{t('rsvpSubtitle')}</p>
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-yellow-100">
-                  Full Name *
+                  {t('fullName')}
                 </label>
                 <input
                   type="text"
@@ -75,7 +76,7 @@ export default function RSVP() {
               </div>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-yellow-100">
-                  Email Address *
+                  {t('emailAddress')}
                 </label>
                 <input
                   type="email"
@@ -89,7 +90,7 @@ export default function RSVP() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-yellow-100 mb-2">
-                  Will you attend? *
+                  {t('attendQuestion')}
                 </label>
                 <div className="flex space-x-6">
                   <label className="inline-flex items-center">
@@ -101,7 +102,7 @@ export default function RSVP() {
                       onChange={handleChange}
                       className="form-radio text-yellow-400 bg-black/40 border-white/30 focus:ring-yellow-400"
                     />
-                    <span className="ml-2 text-white/90">Yes, I&apos;ll be there</span>
+                    <span className="ml-2 text-white/90">{t('yesAttend')}</span>
                   </label>
                   <label className="inline-flex items-center">
                     <input
@@ -112,14 +113,14 @@ export default function RSVP() {
                       onChange={handleChange}
                       className="form-radio text-yellow-400 bg-black/40 border-white/30 focus:ring-yellow-400"
                     />
-                    <span className="ml-2 text-white/90">No, can&apos;t make it</span>
+                    <span className="ml-2 text-white/90">{t('noAttend')}</span>
                   </label>
                 </div>
               </div>
               {formData.attendance === "yes" && (
                 <div>
                   <label htmlFor="guests" className="block text-sm font-medium text-yellow-100">
-                    Number of guests (including you)
+                    {t('guestsLabel')}
                   </label>
                   <input
                     type="number"
@@ -135,7 +136,7 @@ export default function RSVP() {
               )}
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-yellow-100">
-                  Any special requests or message?
+                  {t('messageLabel')}
                 </label>
                 <textarea
                   id="message"
@@ -160,7 +161,7 @@ export default function RSVP() {
                 disabled={isSubmitting}
                 className="w-full bg-yellow-500 hover:bg-yellow-600 disabled:opacity-50 text-black font-bold py-3 px-4 rounded-md transition shadow-lg"
               >
-                {isSubmitting ? 'Sending...' : 'Submit RSVP'}
+                {isSubmitting ? t('submittingButton') : t('submitButton')}
               </button>
             </form>
           </div>
