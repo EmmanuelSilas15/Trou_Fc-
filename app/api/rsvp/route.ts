@@ -18,11 +18,11 @@ export async function POST(request: NextRequest) {
       Message: ${message || 'None'}
     `;
 
-    console.log('Sending email to:', process.env.NOTIFICATION_EMAIL || 'to: jonathankibulungu@gmail.com',);
+    console.log('Sending email to:', process.env.NOTIFICATION_EMAIL || 'to: emmanuellaby@gmail.com',);
 
     const emailResponse = await resend.emails.send({
       from: 'Trou Fc <onboarding@resend.dev>',
-      to: process.env.NOTIFICATION_EMAIL || 'to: jonathankibulungu@gmail.com',
+      to: process.env.NOTIFICATION_EMAIL || 'to: emmanuellaby@gmail.com',
       subject,
       text: body,
     });
