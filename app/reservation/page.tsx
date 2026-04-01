@@ -9,7 +9,6 @@ export default function RSVP() {
     name: "",
     email: "",
     attendance: "yes",
-    guests: "1",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,7 +39,6 @@ export default function RSVP() {
         name: "",
         email: "",
         attendance: "yes",
-        guests: "1",
         message: "",
       });
     } catch (error) {
@@ -117,23 +115,6 @@ export default function RSVP() {
                   </label>
                 </div>
               </div>
-              {formData.attendance === "yes" && (
-                <div>
-                  <label htmlFor="guests" className="block text-sm font-medium text-yellow-100">
-                    {t('guestsLabel')}
-                  </label>
-                  <input
-                    type="number"
-                    id="guests"
-                    name="guests"
-                    min="1"
-                    max="10"
-                    value={formData.guests}
-                    onChange={handleChange}
-                    className="mt-1 block w-full bg-black/40 border border-white/30 rounded-md shadow-sm p-2 text-white focus:ring-yellow-400 focus:border-yellow-400"
-                  />
-                </div>
-              )}
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-yellow-100">
                   {t('messageLabel')}

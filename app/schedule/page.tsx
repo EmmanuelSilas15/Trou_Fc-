@@ -43,13 +43,33 @@ export default function ReservationSchedule() {
     }
   };
 
+  // Function to trigger download of the schedule PDF
+  const downloadSchedule = () => {
+    // Create a temporary anchor element
+    const link = document.createElement('a');
+    link.href = '/schedule.pdf'; // Make sure schedule.pdf is in your public folder
+    link.download = 'schedule.pdf'; // Optional: specify download filename
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-yellow-500 text-white">
       <div className="py-12 px-4">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold text-center text-yellow-300 mb-8">
-            {t('scheduleTitle')}
-          </h1>
+          <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+            <h1 className="text-4xl md:text-5xl font-bold text-center text-yellow-300">
+              {t('scheduleTitle')}
+            </h1>
+            {/* Download Schedule Button */}
+            <button
+              onClick={downloadSchedule}
+              className="mt-4 md:mt-0 inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition shadow-lg"
+            >
+              📄 {t('downloadSchedule')}
+            </button>
+          </div>
 
           {/* Event Details Card */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-xl border border-white/20 mb-12 text-center">
